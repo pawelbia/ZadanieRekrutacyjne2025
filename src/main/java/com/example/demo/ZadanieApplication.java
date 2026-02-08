@@ -35,7 +35,6 @@ public class ZadanieApplication {
 
 		int total = cabinet.count();
 
-		List<Folder> allFolders = cabinet.getAllFolders();
 	}
 }
 
