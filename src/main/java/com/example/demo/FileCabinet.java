@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 ;
 
 public class FileCabinet implements Cabinet {
@@ -14,18 +15,13 @@ public class FileCabinet implements Cabinet {
         this.folders = new ArrayList<>();
     }
 
-    @Override
-    public Optional<Folder> findFolderByName(String name) {
-        Queue<Folder> queue = new LinkedList<>();
-
-        queue.addAll(folders);
+    public List<Folder> getAllFolders() {
+        List<Folder> allFolders = new ArrayList<>();
+        Queue<Folder> queue = new LinkedList<>(folders);
 
         while (!queue.isEmpty()) {
             Folder current = queue.poll();
-
-            if (current.getName().equals(name)) {
-                return Optional.of(current);
-            }
+            allFolders.add(current);
 
             if (current instanceof MultiFolder) {
                 MultiFolder multiFolder = (MultiFolder) current;
@@ -33,48 +29,23 @@ public class FileCabinet implements Cabinet {
             }
         }
 
-        return Optional.empty();
+        return allFolders;
     }
+
+
+        @Override
+    public Optional<Folder> findFolderByName(String name) {
+        return getAllFolders().stream().filter(f -> f.getName().equals(name)).findFirst();
+        }
 
     @Override
     public List<Folder> findFoldersBySize(String size) {
-        List<Folder> result = new ArrayList<>();
-        Queue<Folder> queue = new LinkedList<>();
-
-        queue.addAll(folders);
-
-        while (!queue.isEmpty()) {
-            Folder current = queue.poll();
-
-            if (current.getSize().equals(size)) {
-                result.add(current);
-            }
-
-            if (current instanceof MultiFolder) {
-                MultiFolder multiFolder = (MultiFolder) current;
-                queue.addAll(multiFolder.getFolders());
-            }
-        }
-        return result;
+        return getAllFolders().stream().filter(f -> f.getSize().equals(size)).toList();
     }
 
     @Override
     public int count() {
-        int count = 0;
-        Queue<Folder> queue = new LinkedList<>();
-
-        queue.addAll(folders);
-
-        while (!queue.isEmpty()) {
-            Folder current = queue.poll();
-            count++;
-
-            if (current instanceof MultiFolder) {
-                MultiFolder multiFolder = (MultiFolder) current;
-                queue.addAll(multiFolder.getFolders());
-            }
-        }
-        return count;
+        return getAllFolders().size();
     }
 
     public void addFolder(Folder folder) {
