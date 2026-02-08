@@ -8,24 +8,23 @@ public class ZadanieApplication {
 		FileCabinet cabinet = new FileCabinet();
 
 		// Tworzenie folderów
-		FolderImpl documents = new FolderImpl("Dokumenty", "MEDIUM");
-		FolderImpl photos = new FolderImpl("Zdjęcia", "LARGE");
-		FolderImpl music = new FolderImpl("Muzyka", "LARGE");
+		FolderImpl folder1 = new FolderImpl("folder1", "MEDIUM");
+		FolderImpl folder2 = new FolderImpl("folder2", "LARGE");
+		FolderImpl folder3 = new FolderImpl("folder3", "LARGE");
 
 		// Tworzenie MultiFolder
 		MultiFolderImpl projects = new MultiFolderImpl("Projekty", "LARGE");
-		projects.addFolder(new FolderImpl("ProjektA", "SMALL"));
-		projects.addFolder(new FolderImpl("ProjektB", "MEDIUM"));
+		projects.addFolder(new FolderImpl("Projekt1", "SMALL"));
+		projects.addFolder(new FolderImpl("Projekt2", "MEDIUM"));
 
-		// Tworzenie zagnieżdżonego MultiFolder
 		MultiFolderImpl clientProjects = new MultiFolderImpl("Klienci", "LARGE");
 		clientProjects.addFolder(new FolderImpl("Klient1", "SMALL"));
 		clientProjects.addFolder(new FolderImpl("Klient2", "SMALL"));
 		projects.addFolder(clientProjects);
 
-		cabinet.addFolder(documents);
-		cabinet.addFolder(photos);
-		cabinet.addFolder(music);
+		cabinet.addFolder(folder1);
+		cabinet.addFolder(folder2);
+		cabinet.addFolder(folder3);
 		cabinet.addFolder(projects);
 
 
